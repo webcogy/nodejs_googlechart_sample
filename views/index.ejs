@@ -1,0 +1,57 @@
+<!-- your EJS file -->
+<html>
+
+<head>
+    <!-- Load Google Charts API -->
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.js"
+        integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // Load the Visualization API and the corechart package.
+            const serverData = $('#serverData').text()
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Callback that creates and populates a data table,
+            // instantiates the chart, passes in the data and
+            // draws it.
+            function drawChart() {
+                // Create the data table.
+                var data = google.visualization.arrayToDataTable(JSON.parse(serverData), false);
+
+                // Set chart options
+                var options = {
+                    title: 'Weekly Sales',
+                    width: 600,
+                    height: 400
+                };
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+            }
+        })
+    </script>
+    <style>
+        #chart_div {
+            border: 1px solid #eee;
+            padding: 50px;
+            margin: 50px;
+            width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.1)
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Display the chart -->
+    <div id="serverData">
+        <%=JSON.stringify(data) %>
+    </div>
+    <div id="chart_div"></div>
+</body>
+
+</html>
